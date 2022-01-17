@@ -1,17 +1,18 @@
 import React,{useContext}  from 'react';
 import {motion, AnimatePresence} from 'framer-motion'
 import FeedbackItem from "./FeedbackItem";
+import Loader from './shared/Loader';
 
 import FeedbackContext from '../context/FeedbackContext';
 
 function FeedbackList() {
-   const {feedback} = useContext(FeedbackContext)
+   const {feedback, isLoading} = useContext(FeedbackContext)
 
-    if(!feedback || feedback.length ===0) {
+    if(!isLoading && (!feedback || feedback.length ===0)) {
         return <div className="no_result"><p >no results found</p></div>
     }
-    return (
-        <>
+
+    return isLoading ? <Loader /> : (<>
         <AnimatePresence>
             {feedback.map( (item)=> (
                 <motion.div
@@ -31,8 +32,8 @@ function FeedbackList() {
             ))}
         </AnimatePresence>
           
-        </>   
-    )
+        </> )
+ 
     
 }
 
